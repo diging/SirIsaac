@@ -1807,7 +1807,7 @@ class SloppyCellFittingModel(FittingModel):
 
         # call mpi
         stdoutFile = open(prefix+"stdout.txt",'w')
-        subprocess.call([ "mpirun","-np",str(numprocs),"python",
+        subprocess.call([ "mpirun","-np",str(numprocs),"--allow-run-as-root","python",
                           os.path.join(SIRISAACDIR, "localFitParallel.py"),
                           inputDictFilename ],
                         stderr=stdoutFile,stdout=stdoutFile,env=os.environ)
@@ -2630,9 +2630,9 @@ class EnsembleGenerator():
           # https://stackoverflow.com/questions/60060142/strange-interaction-
           #         between-h5py-subprocess-and-mpirun
           stdoutFile = open(prefix+"stdout.txt",'w')
-          subprocess.call([ "mpirun","-np",str(numprocs),"python",
+          subprocess.call([ "mpirun","-np",str(numprocs),"--allow-run-as-root","python",
                 os.path.join(SIRISAACDIR, "generateEnsembleParallel.py"),
-                inputDictFilename, "--disableC" ],
+                inputDictFilename ],
                 stderr=stdoutFile,stdout=stdoutFile,env=os.environ)
           stdoutFile.close()
           os.remove(inputDictFilename)
@@ -4682,6 +4682,4 @@ class SimpleSinusoidalFittingModel(SloppyCellFittingModel):
 
         # generalSetup should be run by all daughter classes
         self.generalSetup(net,indepParamNames,**kwargs)
-
-
 
